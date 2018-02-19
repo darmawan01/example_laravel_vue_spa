@@ -5,6 +5,7 @@ import Login from './components/auth/Login.vue'
 import Register from './components/auth/Register.vue'
 import Feed from './components/Feed.vue'
 import CreateProduct from './components/product/Create.vue'
+import Edit from './components/product/Edit.vue'
 
 Vue.use(Router)
 
@@ -33,6 +34,13 @@ const router = new Router({
     {
       path: '/product/create',
       component: CreateProduct,
+      meta: {
+          forAuth: true
+      }
+    },
+    {
+      path: '/product/:product/update',
+      component: Edit,
       meta: {
           forAuth: true
       }

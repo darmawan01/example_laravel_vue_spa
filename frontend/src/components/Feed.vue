@@ -1,6 +1,9 @@
 <template>
     <div>
-        <h1>Feed Product</h1>
+        <div class="text-center">
+            <h1>Product</h1>
+            <hr>
+        </div>
         <products></products>
     </div>
 </template>

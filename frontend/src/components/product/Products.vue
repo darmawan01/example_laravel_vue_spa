@@ -1,6 +1,10 @@
 <template>
     <div>
-        <my-product v-for="product in products" :key="product.id" :product="product">
+        <my-product 
+              v-for="product in products" 
+              :key="product.id" 
+              :product="product"
+              :authenticatedUser="authenticatedUser">
 
         </my-product>
     </div>
@@ -16,8 +20,15 @@ export default {
     };
   },
 
+  computed:{
+    authenticatedUser(){
+      return this.$auth.getAuthenticatedUser()
+    }
+  },
+
   components: {
-      'my-product': Product
+      'my-product': Product,
+
   },
 
   created() {

@@ -1,11 +1,11 @@
 <template>
     <div>
       <div class="container">
-        <form @submit.prevent="create">
+        <form @submit.prevent="update">
           <div class="card-deck mb-4 text-center">
               <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                  <h4 class="my-0 font-weight-normal">Add New Product</h4>
+                  <h4 class="my-0 font-weight-normal">Update Product {{product.name}}</h4>
                 </div>
                 <div class="card-body">
                   <div class="form-group">
@@ -37,10 +37,10 @@
                   </div> -->
                 </div>
                 <div class="card-footer">
-                      <input type="submit" value="Create" class="btn btn-lg btn-block btn-outline-success">
-                    <router-link class="btn btn-lg btn-block btn-outline-danger" :to="'/feed'">
-                        Clear
-                    </router-link>
+                      <input type="submit" value="Update" class="btn btn-lg btn-block btn-outline-success">
+                      <router-link class="btn btn-lg btn-block btn-outline-danger" :to="'/feed'">
+                          Clear
+                      </router-link>
                   </div>
               </div>
             </div>       
@@ -54,24 +54,34 @@ import swall from 'sweetalert'
 export default {
   data() {
     return {
-      product: {
-        name: "",
-        price: 0,
-        describ: ""
-      }
+      product: {}
     };
   },
 
-  methods: {
-    create() {    
+  created(){
+      this.getProduct()
+  },
 
-      this.$validator.validateAll().then(() => {
-        this.$http.post("api/products", this.product)
+  methods: {
+    getProduct() {
+      this.$http
+        .get("api/products/" + this.$route.params.product)
         .then(response => {
-          swall("New Product!", "Product has been Added", "success")
+          this.product = response.body;
+        })
+        // penangan response error local, secara global ada di main.js
+        // .catch(response =>{
+        //     console.log(response);
+            
+        //     swall(response.status.toString(), response.body.error, "error")
+        // })
+    },
+    update() {
+      this.$validator.validateAll().then(() => {
+        this.$http.put("api/products/" + this.$route.params.product, this.product).then(response => {
+          swall("Updated!", "Product has been updated", "success")
           this.$router.push('/feed')
         });
-
       })
     }
   }
